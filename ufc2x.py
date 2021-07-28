@@ -152,16 +152,43 @@ firmware[296] = 0b00000000010000010100001000001010
    #256 + 40: PC = MBR; fetch; goto MBR
 
 #X = X * mem[address]
-   
+firmware[40] = 0b00010100100000110101001000001001
+   #40: PC = PC + 1 fetch goto next
+firmware[41] = 0b00010101000000010100100000010010
+   #41: MAR = MBR read goto next
+firmware[42] = 0b00010101100000000000000001010000
+   #42: H = 0 goto next
+firmware[43] = 0b00010110000100010100000100000011
+   #43: X = X if ALU == 0 goto next + 256 else goto next
+firmware[44] = 0b00010110100000110110000100000011
+   #44: X = X - 1 goto next
+firmware[45] = 0b00010101100000111100000001000000
+   #45: H = H + MDR goto 43
+firmware[300] = 0b00000000000000011000000100000000
+   #44 + 256: X = H goto main 
+
 #Y = Y * mem[address]
+firmware[46] = 0b00010111100000110101001000001001
+firmware[47] = 0b00011000000000010100100000010010
+firmware[48] = 0b00011000100000000000000001010000
+firmware[49] = 0b00011001000100010100000010000100
+firmware[50] = 0b00011001100000110110000010000100
+firmware[51] = 0b00011000100000111100000001000000
+firmware[306] = 0b00000000000000011000000010000000
 
+   
 #X = X / mem[address]
-
+firmware[52] = 0b00011010100000110101001000001001
+   #PC = PC + 1 fetch goto next
+firmware[53] = 0b00011011000000010100100000010010
+   #MAR = MBR read goto next
+   #H = X goto next
+   #X = 0 goto next
+   #H = H if ALU == 0 goto next + 256 else goto next
+   #H = 
 #Y = Y / mem[address]
 
-#X = X mod mem[address]
 
-#Y = Y mod mem[address]
 
 def read_regs(reg_num):
    global BUS_A, BUS_B, H, MDR, PC, MBR, X, Y
