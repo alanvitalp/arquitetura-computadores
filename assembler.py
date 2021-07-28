@@ -6,7 +6,7 @@ lines = []
 lines_bin = []
 names = []
 
-instructions = ['add', 'sub', 'goto', 'mov', 'jz', 'jn', 'halt', 'wb', 'ww']
+instructions = ['add', 'sub', 'goto', 'mov', 'jz', 'jn', 'ifneg', 'halt', 'wb', 'ww']
 instruction_set = {'goto': 8,
                    'addx': 1,
                    'subx': 12,
@@ -18,6 +18,8 @@ instruction_set = {'goto': 8,
                    'jzy': 24,
                    'jny': 32,
                    'movy': 21,
+                   'ifnegx': 34,
+                   'ifnegy': 37,
                    'halt': 0xFF}
 
 def is_instruction(str):
@@ -58,6 +60,9 @@ def encode_2ops(inst, ops):
             if (inst == 'mov'):
                line_bin.append(instruction_set['movx'])
                line_bin.append(ops[1])
+            if (inst == 'ifneg'):
+               line_bin.append(instruction_set['ifnegx'])
+               line_bin.append(ops[1])
       if ops[0] == 'y':
          if is_name(ops[1]):
             if (inst == 'add'):
@@ -74,6 +79,9 @@ def encode_2ops(inst, ops):
                line_bin.append(ops[1])
             if (inst == 'mov'):
                line_bin.append(instruction_set['movy'])
+               line_bin.append(ops[1])
+            if (inst == 'ifneg'):
+               line_bin.append(instruction_set['ifnegy'])
                line_bin.append(ops[1])
    return line_bin
 
@@ -111,7 +119,7 @@ def encode_ww(ops):
    return line_bin
       
 def encode_instruction(inst, ops):
-   if inst == 'add' or inst == 'sub' or inst == 'mov' or inst == 'jz' or inst == 'jn':
+   if inst == 'add' or inst == 'sub' or inst == 'mov' or inst == 'jz' or inst == 'jn' or inst == 'ifneg':
       return encode_2ops(inst, ops)
    elif inst == 'goto':
       return encode_goto(ops)

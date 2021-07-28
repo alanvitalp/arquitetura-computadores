@@ -152,7 +152,7 @@ firmware[296] = 0b00000000010000010100001000001010
    #256 + 40: PC = MBR; fetch; goto MBR
 
 #X = X * mem[address]
-
+   
 #Y = Y * mem[address]
 
 #X = X / mem[address]
