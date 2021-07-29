@@ -6,7 +6,7 @@ lines = []
 lines_bin = []
 names = []
 
-instructions = ['add', 'sub','mult', 'goto', 'mov', 'jz', 'jn', 'ifneg', 'halt', 'wb', 'ww']
+instructions = ['add', 'sub', 'mult', 'div', 'goto', 'mov', 'jz', 'jn', 'ifneg', 'halt', 'wb', 'ww']
 instruction_set = {'goto': 8,
                    'addx': 1,
                    'subx': 12,
@@ -22,6 +22,7 @@ instruction_set = {'goto': 8,
                    'ifnegy': 37,
                    'multx' : 40,
                    'multy' : 46,
+                   'divx' : 52,
                    'halt': 0xFF}
 
 def is_instruction(str):
@@ -67,6 +68,9 @@ def encode_2ops(inst, ops):
                line_bin.append(ops[1])
             if (inst == 'mult'):
                line_bin.append(instruction_set['multx'])
+               line_bin.append(ops[1])
+            if (inst == 'div'):
+               line_bin.append(instruction_set['divx'])
                line_bin.append(ops[1])
       if ops[0] == 'y':
          if is_name(ops[1]):
@@ -127,7 +131,7 @@ def encode_ww(ops):
    return line_bin
       
 def encode_instruction(inst, ops):
-   if inst == 'add' or inst == 'sub' or inst == 'mov' or inst == 'jz' or inst == 'jn' or inst == 'ifneg':
+   if inst == 'add' or inst == 'sub' or inst == 'mov' or inst == 'jz' or inst == 'jn' or inst == 'ifneg' or inst == 'div':
       return encode_2ops(inst, ops)
    elif inst == 'goto':
       return encode_goto(ops)
@@ -189,7 +193,7 @@ def resolve_names():
    for line in lines_bin:
       for i in range(0, len(line)):
          if is_name(line[i]):
-            if (line[i-1] == instruction_set['addx']) or (line[i-1] == instruction_set['addy']) or (line[i-1] == instruction_set['subx']) or (line[i-1] == instruction_set['suby']) or (line[i-1] == instruction_set['movx']) or (line[i-1] == instruction_set['movy']) or (line[i-1] == instruction_set['multx']) or (line[i-1] == instruction_set['multy']):
+            if (line[i-1] == instruction_set['addx']) or (line[i-1] == instruction_set['addy']) or (line[i-1] == instruction_set['subx']) or (line[i-1] == instruction_set['suby']) or (line[i-1] == instruction_set['movx']) or (line[i-1] == instruction_set['movy']) or (line[i-1] == instruction_set['multx']) or (line[i-1] == instruction_set['multy']) or (line[i-1] == instruction_set['divx']):
                line[i] = get_name_byte(line[i])//4
             else:
                line[i] = get_name_byte(line[i])

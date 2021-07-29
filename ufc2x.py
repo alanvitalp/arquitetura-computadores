@@ -182,11 +182,28 @@ firmware[52] = 0b00011010100000110101001000001001
    #PC = PC + 1 fetch goto next
 firmware[53] = 0b00011011000000010100100000010010
    #MAR = MBR read goto next
+firmware[54] = 0b00011011100000010100000001000011
    #H = X goto next
+firmware[55] = 0b00011100000000000000000100000000
    #X = 0 goto next
-   #H = H if ALU == 0 goto next + 256 else goto next
-   #H = 
-#Y = Y / mem[address]
+firmware[56] = 0b00011100100111011000000010000000
+   #Y = H >> 31 if ALU == 0 goto next + 256 (if h = 0 goto passo final) else goto next
+firmware[57] = 0b00011101000100010100000010000100
+   #Y = Y if ALU != 0 goto next + 256 (if h < 0) else goto next
+firmware[58] = 0b00011101100000111111000001000000
+   #H = H - MDR goto next
+firmware[59] = 0b00011100000000110101000100000011
+   #X = X + 1 goto Y = H >>31 .....
+
+   #passo final
+firmware[313] = 0b00000000000000011000000010000000
+   #  Y = H goto main
+
+   #if h < 0
+firmware[314] = 0b10011101100000110110000100000011
+   #  X = X - 1 goto next
+firmware[315] = 0b10011100100000111100000001000000
+   #  H = H + MDR goto passo final
 
 
 
