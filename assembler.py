@@ -131,7 +131,7 @@ def encode_ww(ops):
    return line_bin
       
 def encode_instruction(inst, ops):
-   if inst == 'add' or inst == 'sub' or inst == 'mov' or inst == 'jz' or inst == 'jn' or inst == 'ifneg' or inst == 'div':
+   if inst == 'add' or inst == 'sub' or inst == 'mov' or inst == 'jz' or inst == 'jn' or inst == 'ifneg' or inst == 'mult' or inst == 'div':
       return encode_2ops(inst, ops)
    elif inst == 'goto':
       return encode_goto(ops)
