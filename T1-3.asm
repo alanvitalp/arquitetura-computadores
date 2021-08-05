@@ -28,7 +28,6 @@ loop    sub x, current
         goto loop
 end     add x, one
         mov x, n
-        goto hlt
+        halt
 break   mov y, n
-        goto hlt
-hlt     halt
+        halt
