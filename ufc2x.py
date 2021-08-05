@@ -182,28 +182,34 @@ firmware[52] = 0b00011010100000110101001000001001
    #PC = PC + 1 fetch goto next
 firmware[53] = 0b00011011000000010100100000010010
    #MAR = MBR read goto next
-firmware[54] = 0b00011011100000010100000001000011
+firmware[54] = 0b00011011100000010100000001000000
+   #H = MDR goto next
+firmware[55] = 0b00011100000000111011010000000000
+   #MDR = - H
+firmware[56] = 0b00011100100000010100000001000011
    #H = X goto next
-firmware[55] = 0b00011100000000000000000100000000
+firmware[57] = 0b00011101000000000000000100000000
    #X = 0 goto next
-firmware[56] = 0b00011100100111011000000010000000
+firmware[58] = 0b00011101100111011000000010000000
    #Y = H >> 31 if ALU == 0 goto next + 256 (if h = 0 goto passo final) else goto next
-firmware[57] = 0b00011101000100010100000010000100
+firmware[59] = 0b00011110001000010100000010000100
    #Y = Y if ALU != 0 goto next + 256 (if h < 0) else goto next
-firmware[58] = 0b00011101100000111111000001000000
-   #H = H - MDR goto next
-firmware[59] = 0b00011100000000110101000100000011
+firmware[60] = 0b00011110100000111100000001000000
+   #H = H + MDR goto next
+firmware[61] = 0b00011101000000110101000100000011
    #X = X + 1 goto Y = H >>31 .....
 
    #passo final
-firmware[313] = 0b00000000000000011000000010000000
+firmware[315] = 0b00000000000000011000000010000000
    #  Y = H goto main
 
    #if h < 0
-firmware[314] = 0b10011101100000110110000100000011
+firmware[316] = 0b10011110100000110110000100000011
    #  X = X - 1 goto next
-firmware[315] = 0b10011100100000111100000001000000
-   #  H = H + MDR goto passo final
+firmware[317] = 0b10011111000000111111000001000000
+   #  H = MDR - H goto next
+firmware[318] = 0b10011101100000111011000001000000
+   #  H = -H goto passo final
 
 
 
@@ -336,7 +342,6 @@ def step():
    global MIR, MPC
    
    MIR = firmware[MPC]
-   
    if MIR == 0:
       return False
       
