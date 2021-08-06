@@ -3,7 +3,7 @@
 
         n ww 17
         one ww 1
-        two ww 2
+        base ww 2
 
 main    add x, one
 loop    sub x, n
@@ -11,7 +11,7 @@ loop    sub x, n
         ifneg x, cont
         goto breakn
 cont    add x, n
-        mult x, two
+        mult x, base
         add y, one
         goto loop
 

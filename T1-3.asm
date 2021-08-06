@@ -10,7 +10,7 @@ main    add x, n
         sub x, one
         jn x, next
         mov x, n
-        goto hlt
+        halt
 next    add x, one
 loop    sub x, current
         jz x, end
